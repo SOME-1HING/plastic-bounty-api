@@ -8,6 +8,7 @@
     "google reverse image",
     "vercel"
   ],
+  "type": "module",
   "main": "src/app.js",
   "scripts": {
     "start": "node build/app.js",

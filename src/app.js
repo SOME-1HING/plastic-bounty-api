@@ -1,7 +1,7 @@
-const express = require("express");
-const { json } = require("express");
-const { ErrorResponseObject } = require("./common/http");
-const routes = require("./routes");
+import express from "express";
+import { json } from "express";
+import { ErrorResponseObject } from "./common/http.js";
+import routes from "./routes/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;

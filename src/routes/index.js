@@ -1,12 +1,9 @@
-const { Router } = require("express");
-const {
-  SuccessResponseObject,
-  ErrorResponseObject,
-} = require("../common/http");
+import { Router } from "express";
+import { SuccessResponseObject, ErrorResponseObject } from "../common/http.js";
 
 const r = Router();
 
-module.exports = r;
+export default r;
 
 /*
 r.get("/", (req, res) =>
