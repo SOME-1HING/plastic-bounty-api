@@ -17,7 +17,7 @@ r.get("/", (req, res) =>
     )
 );
 
-r.get("/users/addUser", (req, res) => {
+r.post("/users/addUser", (req, res) => {
   addUserRouter(res, req);
 });
 
