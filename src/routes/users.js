@@ -2,7 +2,7 @@ import r from ".";
 import { ErrorResponseObject, SuccessResponseObject } from "../common/http.js";
 import addUser from "../model/users";
 
-const addUserRoute = (req, res) => {
+r.post("/users/addUser", (req, res) => {
   addUser(
     req.body.uid,
     req.body.firstName,
@@ -26,6 +26,4 @@ const addUserRoute = (req, res) => {
     .catch((error) => {
       res.status(200).json(new ErrorResponseObject("Server Error"));
     });
-};
-
-export { addUserRoute };
+});

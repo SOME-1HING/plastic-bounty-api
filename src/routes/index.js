@@ -1,12 +1,7 @@
 import { Router } from "express";
 import { SuccessResponseObject, ErrorResponseObject } from "../common/http.js";
-import { addUserRoute } from "./users.js";
 
 const r = Router();
-
-r.post("/users/addUser", (req, res) => {
-  addUserRoute(req, res);
-});
 
 export default r;
 
