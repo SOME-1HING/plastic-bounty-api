@@ -10,16 +10,22 @@ const addUser = async (
   badges,
   points
 ) => {
-  const { user } = await pool.query(
-    "SELECT email FROM users_table WHERE email=$1",
-    [email]
-  );
+  const client = await pool.connect();
 
-  if (user.length > 0) {
-    return false;
-  }
+  try {
+    await client.query("BEGIN");
 
-  await sql`INSERT INTO users_table (
+    const user = await client.query(
+      "SELECT email FROM users_table WHERE email=$1",
+      [email]
+    );
+
+    if (user.rows.length > 0) {
+      return false;
+    }
+
+    await client.query(
+      `INSERT INTO users_table (
     userid,
     first_name,
     last_name,
@@ -31,7 +37,16 @@ const addUser = async (
   ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8
   );`,
-    [uid, firstName, lastName, username, email, profile_pic, badges, points];
+      [uid, firstName, lastName, username, email, profile_pic, badges, points]
+    );
+
+    await client.query("COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
 
   return true;
 };
