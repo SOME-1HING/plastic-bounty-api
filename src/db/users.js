@@ -50,5 +50,25 @@ const addUser = async (
 
   return true;
 };
+const getUser = async (uid) => {
+  const client = await pool.connect();
 
-module.exports = { addUser };
+  try {
+    await client.query("BEGIN");
+
+    const user = await client.query(
+      "SELECT * FROM users_table WHERE userid=$1",
+      [uid]
+    );
+
+    await client.query("COMMIT");
+    return user.rows[0];
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { addUser, getUser };

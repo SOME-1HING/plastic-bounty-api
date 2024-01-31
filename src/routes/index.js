@@ -3,7 +3,7 @@ const {
   SuccessResponseObject,
   ErrorResponseObject,
 } = require("../common/http");
-const { addUserRouter } = require("./users");
+const { addUserRouter, getUserRouter } = require("./users");
 
 const r = Router();
 
@@ -19,6 +19,9 @@ r.get("/", (req, res) =>
 
 r.post("/users/addUser", (req, res) => {
   addUserRouter(res, req);
+});
+r.get("/users/getUser", (req, res) => {
+  getUserRouter(res, req);
 });
 
 module.exports = r;
