@@ -39,3 +39,5 @@ const addUser = async (
 
   return true;
 };
+
+export { addUser };
