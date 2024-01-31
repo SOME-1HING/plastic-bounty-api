@@ -1,29 +1,33 @@
-import r from ".";
-import { ErrorResponseObject, SuccessResponseObject } from "../common/http.js";
-import addUser from "../model/users";
+const {
+  SuccessResponseObject,
+  ErrorResponseObject,
+} = require("../common/http");
+const addUser = require("../db/users.js");
 
-r.post("/users/addUser", (req, res) => {
-  addUser(
-    req.body.uid,
-    req.body.firstName,
-    req.body.lastName,
-    req.body.username,
-    req.body.email,
-    req.body.profile_pic,
-    req.body.badges,
-    req.body.points
-  )
+const addUserRouter = (res, req) => {
+  addUser
+    .addUser(
+      req.body.uid,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.username,
+      req.body.email,
+      req.body.profile_pic,
+      req.body.badges,
+      req.body.points
+    )
     .then((result) => {
-      if (result)
-        res.status(200).json(new SuccessResponseObject("User added."));
-      else
+      if (result) {
         res
-          .status(203)
-          .json(
-            new SuccessResponseObject("User already Present in the database.")
-          );
+          .status(200)
+          .json(new SuccessResponseObject("User added successfully"));
+      } else {
+        res.status(400).json(new SuccessResponseObject("User already exists"));
+      }
     })
-    .catch((error) => {
-      res.status(200).json(new ErrorResponseObject("Server Error"));
+    .catch((err) => {
+      res.status(500).json(new ErrorResponseObject(err.message));
     });
-});
+};
+
+module.exports = { addUserRouter };
