@@ -4,6 +4,7 @@ const {
   ErrorResponseObject,
 } = require("../common/http");
 const { addUserRouter, getUserRouter } = require("./users");
+const { getLeaderboardRouter } = require("./leaderboard");
 
 const r = Router();
 
@@ -22,6 +23,9 @@ r.post("/users/addUser", (req, res) => {
 });
 r.get("/users/getUser", (req, res) => {
   getUserRouter(res, req);
+});
+r.get("/getLeaderboard", (req, res) => {
+  getLeaderboardRouter(res, req);
 });
 
 module.exports = r;
