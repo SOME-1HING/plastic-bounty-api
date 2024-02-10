@@ -34,9 +34,9 @@ const getStats = async () => {
     }
 
     return {
-      userCount: userCount,
-      activeTicketCount: activeTicketCount,
-      closedTicketCount: closedTicketCount,
+      userCount: parseInt(userCount),
+      activeTicketCount: parseInt(activeTicketCount),
+      closedTicketCount: parseInt(closedTicketCount),
     };
   } catch (e) {
     console.error(e);
