@@ -10,7 +10,7 @@ const getLeaderboardRouter = (res, req) => {
       res.status(200).json(new SuccessResponseObject("Leaderboard", result));
     })
     .catch((err) => {
-      res.status(500).json(new ErrorResponseObject(err.message));
+      res.status(500).json(new ErrorResponseObject(err.message, []));
     });
 };
 
