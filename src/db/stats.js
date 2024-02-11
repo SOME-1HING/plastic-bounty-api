@@ -17,8 +17,10 @@ const getStats = async () => {
       userCount = 0;
     }
     try {
-      activeTicketCount = await client.query(
-        "Select count(*) from tickets_table where status='active'"
+      activeTicketCount = (
+        await client.query(
+          "Select count(*) from tickets_table where status='active'"
+        )
       ).rows[0].count;
     } catch (e) {
       activeTicketCount = 0;
