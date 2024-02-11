@@ -24,8 +24,8 @@ const addTicket = async (
       [
         problem_category,
         problem_description,
-        latitude.parseDouble(),
-        longitude.parseDouble(),
+        latitude,
+        longitude,
         reporter_id,
         incident_pic,
       ]
