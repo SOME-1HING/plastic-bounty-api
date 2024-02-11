@@ -2,7 +2,7 @@ const {
   SuccessResponseObject,
   ErrorResponseObject,
 } = require("../common/http");
-const { addUser, getUser } = require("../db/users.js");
+const { addUser, getUser, getRank } = require("../db/users.js");
 
 const addUserRouter = (res, req) => {
   addUser(
@@ -53,4 +53,21 @@ const getUserRouter = (res, req) => {
     });
 };
 
-module.exports = { addUserRouter, getUserRouter };
+const getUserRankRouter = (res, req) => {
+  getRank(req.query.uid)
+    .then((result) => {
+      if (result)
+        res.status(200).json(new SuccessResponseObject("Rank Fetched", result));
+      else
+        res
+          .status(400)
+          .json(
+            new SuccessResponseObject("User is not present in the database", 0)
+          );
+    })
+    .catch((err) => {
+      res.status(500).json(new ErrorResponseObject(err.message, 0));
+    });
+};
+
+module.exports = { addUserRouter, getUserRouter, getUserRankRouter };

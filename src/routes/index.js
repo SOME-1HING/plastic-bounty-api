@@ -3,7 +3,7 @@ const {
   SuccessResponseObject,
   ErrorResponseObject,
 } = require("../common/http");
-const { addUserRouter, getUserRouter } = require("./users");
+const { addUserRouter, getUserRouter, getUserRankRouter } = require("./users");
 const { getLeaderboardRouter } = require("./leaderboard");
 const { addTicketRouter, getTicketsRouter } = require("./tickets");
 const { getStatsRouter } = require("./stats");
@@ -37,6 +37,9 @@ r.get("/getLeaderboard", (req, res) => {
 });
 r.get("/getStats", (req, res) => {
   getStatsRouter(res, req);
+});
+r.get("/users/getRank", (req, res) => {
+  getUserRankRouter(res, req);
 });
 
 module.exports = r;

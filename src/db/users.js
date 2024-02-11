@@ -71,4 +71,26 @@ const getUser = async (uid) => {
   }
 };
 
-module.exports = { addUser, getUser };
+const getRank = async (uid) => {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const user = await client.query(
+      "SELECT ROW_NUMBER() OVER (ORDER BY points DESC) AS rank, * FROM users_table WHERE userid=$1",
+      [uid]
+    );
+
+    await client.query("COMMIT");
+
+    return user.rows[0]["rank"];
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { addUser, getUser, getRank };

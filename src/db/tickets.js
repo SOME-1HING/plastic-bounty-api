@@ -37,7 +37,7 @@ const addTicket = async (
     );
 
     if (user.rows.length > 0) {
-      if (user.rows[0]["badges"] === "") {
+      if (user.rows[0]["badges"] == "") {
         await client.query(
           `UPDATE users_table SET badges = 'first', points = points + 10 WHERE userid=$1`,
           [reporter_id]
