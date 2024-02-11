@@ -81,4 +81,25 @@ const getTickets = async () => {
   }
 };
 
-module.exports = { addTicket, getTickets };
+const closeTicket = async (ticket_id) => {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    await client.query(
+      `UPDATE tickets_table SET status = 'closed' WHERE id=$1`,
+      [ticket_id]
+    );
+
+    await client.query("COMMIT");
+    return true;
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { addTicket, getTickets, closeTicket };

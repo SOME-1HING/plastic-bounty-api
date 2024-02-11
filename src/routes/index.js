@@ -5,7 +5,11 @@ const {
 } = require("../common/http");
 const { addUserRouter, getUserRouter, getUserRankRouter } = require("./users");
 const { getLeaderboardRouter } = require("./leaderboard");
-const { addTicketRouter, getTicketsRouter } = require("./tickets");
+const {
+  addTicketRouter,
+  getTicketsRouter,
+  closeTicketRouter,
+} = require("./tickets");
 const { getStatsRouter } = require("./stats");
 
 const r = Router();
@@ -31,6 +35,9 @@ r.post("/tickets/addTicket", (req, res) => {
 });
 r.get("/tickets/getTickets", (req, res) => {
   getTicketsRouter(res, req);
+});
+r.get("/tickets/closeTicket", (req, res) => {
+  closeTicketRouter(res, req);
 });
 r.get("/getLeaderboard", (req, res) => {
   getLeaderboardRouter(res, req);

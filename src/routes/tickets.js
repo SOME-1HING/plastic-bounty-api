@@ -2,7 +2,7 @@ const {
   SuccessResponseObject,
   ErrorResponseObject,
 } = require("../common/http");
-const { addTicket, getTickets } = require("../db/tickets.js");
+const { addTicket, getTickets, closeTicket } = require("../db/tickets.js");
 
 const addTicketRouter = (res, req) => {
   addTicket(
@@ -51,4 +51,22 @@ const getTicketsRouter = (res, req) => {
     });
 };
 
-module.exports = { addTicketRouter, getTicketsRouter };
+const closeTicketRouter = (res, req) => {
+  closeTicket(req.query.id)
+    .then((result) => {
+      if (result) {
+        res
+          .status(200)
+          .json(new SuccessResponseObject("Ticket closed successfully"));
+      } else {
+        res
+          .status(400)
+          .json(new SuccessResponseObject("Ticket already closed"));
+      }
+    })
+    .catch((err) => {
+      res.status(500).json(new ErrorResponseObject(err.message));
+    });
+};
+
+module.exports = { addTicketRouter, getTicketsRouter, closeTicketRouter };
