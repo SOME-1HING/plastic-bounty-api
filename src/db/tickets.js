@@ -31,6 +31,25 @@ const addTicket = async (
       ]
     );
 
+    const user = await client.query(
+      "SELECT * FROM users_table WHERE userid=$1",
+      [reporter_id]
+    );
+
+    if (user.rows > 0) {
+      if (user.rows[0]["badges"] === "") {
+        await client.query(
+          `UPDATE users_table SET badges = 'first', points = points + 10 WHERE userid=$1`,
+          [reporter_id]
+        );
+      } else {
+        await client.query(
+          `UPDATE users_table SET points = points + 10 WHERE userid=$1`,
+          [reporter_id]
+        );
+      }
+    }
+
     await client.query("COMMIT");
     success = true;
   } catch (e) {
