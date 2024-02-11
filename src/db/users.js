@@ -78,19 +78,23 @@ const getRank = async (uid) => {
     await client.query("BEGIN");
 
     const user = await client.query(
-      "SELECT ROW_NUMBER() OVER (ORDER BY points DESC) AS rank, * FROM users_table WHERE userid=$1",
-      [uid]
+      "SELECT ROW_NUMBER() OVER (ORDER BY points DESC) AS rank, * FROM users_table"
     );
 
     await client.query("COMMIT");
 
-    return user.rows[0]["rank"];
+    for (let i = 0; i < user.rows.length; i++) {
+      if (user.rows[i]["userid"] == uid) {
+        return user.rows[i]["rank"];
+      }
+    }
   } catch (e) {
     await client.query("ROLLBACK");
     throw e;
   } finally {
     client.release();
   }
+  return 0;
 };
 
 module.exports = { addUser, getUser, getRank };
